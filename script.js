@@ -19,23 +19,26 @@ let countdownInterval;
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const currentTime = new Date().getTime();
   // 1. Capture user input
   const nameValue = eventNameInput.value.trim();
-  const dateValue = dateTime.value;
+  const dateValue = dateTime.value; // This is a String
 
-  // 2. Validation
-  if (!dateTime.value || dateValue < currentTime) {
+  // 2. CONVERT TO NUMBERS FOR COMPARISON
+  const targetTime = new Date(dateValue).getTime();
+  const currentTime = new Date().getTime();
+
+  // 3. Validation - Now comparing Number vs Number
+  if (!dateValue || targetTime < currentTime) {
     alert("Please select a future date and time.");
     return;
   }
 
-  // 3. UI Transition
+  // 4. UI Transition
   activeEventTitle.innerText = nameValue ? nameValue : "The Big Day";
   form.classList.add("hidden");
   countdownContainer.classList.remove("hidden");
 
-  // 4. Start Countdown
+  // 5. Start Countdown
   startCountdown(dateValue);
 });
 
