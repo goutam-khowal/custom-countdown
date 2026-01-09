@@ -5,40 +5,51 @@ const eventNameInput = document.getElementById("eventName");
 const countdownContainer = document.getElementById("countdown-container");
 const activeEventTitle = document.getElementById("activeEventTitle");
 
-// Timer Display Elements
 const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
 const minutesEl = document.getElementById("minutes");
 const secondsEl = document.getElementById("seconds");
 
-// ===== GLOBAL VARIABLES =====
 let countdownInterval;
+
+// ===== 1. INITIAL LOAD CHECK =====
+// Check if there is a saved countdown when the page loads
+window.addEventListener("load", () => {
+  const savedDate = localStorage.getItem("countdownDate");
+  const savedName = localStorage.getItem("countdownName");
+
+  if (savedDate) {
+    // If a date exists, skip the form and start the timer
+    activeEventTitle.innerText = savedName || "The Big Day";
+    form.classList.add("hidden");
+    countdownContainer.classList.remove("hidden");
+    startCountdown(savedDate);
+  }
+});
 
 // ===== EVENT LISTENERS =====
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  // 1. Capture user input
   const nameValue = eventNameInput.value.trim();
-  const dateValue = dateTime.value; // This is a String
-
-  // 2. CONVERT TO NUMBERS FOR COMPARISON
+  const dateValue = dateTime.value;
   const targetTime = new Date(dateValue).getTime();
   const currentTime = new Date().getTime();
 
-  // 3. Validation - Now comparing Number vs Number
   if (!dateValue || targetTime < currentTime) {
     alert("Please select a future date and time.");
     return;
   }
 
-  // 4. UI Transition
+  // ===== 2. SAVE TO LOCALSTORAGE =====
+  localStorage.setItem("countdownDate", dateValue);
+  localStorage.setItem("countdownName", nameValue);
+
   activeEventTitle.innerText = nameValue ? nameValue : "The Big Day";
   form.classList.add("hidden");
   countdownContainer.classList.remove("hidden");
 
-  // 5. Start Countdown
   startCountdown(dateValue);
 });
 
@@ -46,23 +57,22 @@ form.addEventListener("submit", (e) => {
 
 function startCountdown(targetDateValue) {
   const targetDate = new Date(targetDateValue).getTime();
-
-  // Clear any existing timer before starting a new one
   clearInterval(countdownInterval);
 
   countdownInterval = setInterval(() => {
     const now = new Date().getTime();
     const timeDifference = targetDate - now;
 
-    // If the date has passed
     if (timeDifference <= 0) {
       clearInterval(countdownInterval);
+      // Clear storage once the event is finished
+      localStorage.removeItem("countdownDate");
+      localStorage.removeItem("countdownName");
       activeEventTitle.innerText = "The Time has Arrived!";
       updateDisplay(0, 0, 0, 0);
       return;
     }
 
-    // Time calculations
     const d = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     const h = Math.floor(
       (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -70,7 +80,6 @@ function startCountdown(targetDateValue) {
     const m = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
     const s = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-    // Update the screen
     updateDisplay(d, h, m, s);
   }, 1000);
 }
@@ -82,20 +91,19 @@ function updateDisplay(d, h, m, s) {
   secondsEl.innerText = s;
 }
 
-// ===== UTILITY FUNCTIONS =====
+// ===== 3. UTILITY FUNCTIONS (UPDATED) =====
 
 function resetCountdown() {
-  // Stop the timer
   clearInterval(countdownInterval);
 
-  // Switch UI back to form
+  // ===== CLEAR LOCALSTORAGE =====
+  localStorage.removeItem("countdownDate");
+  localStorage.removeItem("countdownName");
+
   form.classList.remove("hidden");
   countdownContainer.classList.add("hidden");
 
-  // Clear inputs
   dateTime.value = "";
   eventNameInput.value = "";
-
-  // Reset display numbers
   updateDisplay(0, 0, 0, 0);
 }
