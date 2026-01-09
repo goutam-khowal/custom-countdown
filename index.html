@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Custom Countdown</title>
+
+</head>
+
+<body>
+  <form id="form">
+    <h1>Set Countdown</h1>
+    <input type="text" id="eventName" placeholder="What are we waiting for?">
+    <input type="datetime-local" name="dateTime" id="dateTime">
+    <input type="submit" value="Start Journey">
+  </form>
+
+  <div id="countdown-container" class="hidden">
+    <span id="displayEventName">COUNTDOWN TO</span>
+    <h2 id="activeEventTitle">EVENT NAME</h2>
+
+    <div class="timer">
+      <span id="days" data-label="Days">0</span>
+      <span id="hours" data-label="Hours">0</span>
+      <span id="minutes" data-label="Mins">0</span>
+      <span id="seconds" data-label="Secs">0</span>
+    </div>
+    <button onclick="resetCountdown()">Abort Mission</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>

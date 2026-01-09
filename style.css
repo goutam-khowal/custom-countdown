@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+
+:root {
+    --accent: #7f56d9;
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background: var(--bg-gradient);
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+/* Glassmorphism Container */
+form,
+#countdown-container {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    padding: 48px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 600px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Typography & Title */
+h1,
+h2 {
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0.4));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* The Timer Grid */
+.timer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 40px 0;
+}
+
+.timer span {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px 10px;
+    border-radius: 16px;
+    font-size: 3rem;
+    font-weight: 900;
+    border: 1px solid var(--glass-border);
+    position: relative;
+}
+
+/* Adding labels under numbers using pseudo-elements */
+.timer span::after {
+    content: attr(data-label);
+    font-size: 0.7rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #94a3b8;
+    margin-top: 5px;
+}
+
+/* Premium Inputs */
+input[type="datetime-local"] {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 16px;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+input[type="submit"],
+button {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.hidden {
+    display: none !important;
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+
+/* Add this to your existing <style> */
+
+#eventName {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 16px;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.1rem;
+    width: 100%;
+    margin-bottom: 12px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#eventName:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(127, 86, 217, 0.2);
+}
+
+#eventName::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Heading animation for when the name appears */
+#displayEventName {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
