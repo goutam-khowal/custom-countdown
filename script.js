@@ -1,3 +1,27 @@
+// Add this at the VERY top of your script.js
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Checking for saved data...");
+
+  const savedDate = localStorage.getItem("countdownDate");
+  const savedName = localStorage.getItem("countdownName");
+
+  if (savedDate) {
+    console.log("Found saved date:", savedDate);
+    // Fill the inputs so the startCountdown function has data to work with
+    dateTime.value = savedDate;
+    eventNameInput.value = savedName || "";
+
+    // Trigger the UI switch
+    activeEventTitle.innerText = savedName || "The Big Day";
+    form.classList.add("hidden");
+    countdownContainer.classList.remove("hidden");
+
+    startCountdown(savedDate);
+  } else {
+    console.log("No saved countdown found.");
+  }
+});
+
 // ===== DOM ELEMENTS =====
 const form = document.getElementById("form");
 const dateTime = document.getElementById("dateTime");
