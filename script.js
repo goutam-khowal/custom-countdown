@@ -19,12 +19,19 @@ let countdownInterval;
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
+  const currentTime = new Date();
+
   // 1. Capture user input
   const nameValue = eventNameInput.value.trim();
   const dateValue = dateTime.value;
 
   // 2. Validation
   if (!dateValue) {
+    alert("Please select a valid date and time.");
+    return;
+  }
+
+  if (dateValue < currentTime) {
     alert("Please select a valid date and time.");
     return;
   }
